@@ -76,3 +76,6 @@ curl -k -X POST "https://<LOAD_BALANCER_IP>/predict" \
     -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
     -H "Content-Type: application/json" \
     -d '{ "instances": [[...]] }'
+```
+
+> **Note:** This is a personal project and is not an officially supported Google solution.
