@@ -32,12 +32,8 @@ flowchart LR
     GLB -- Geo-Routing --> CR2
 
     %% Primary Paths
-    CR1 == Primary Path ==> V1
-    CR2 == Primary Path ==> V2
-
-    %% Failover Paths (PSC Global Access)
-    CR1 -.-> V2
-    CR2 -.-> V1
+    CR1 == Edited URL ==> V1
+    CR2 == Edited URL ==> V2
 
     %% Styling
     style Client fill:#ff9,stroke:#333,stroke-width:2px
