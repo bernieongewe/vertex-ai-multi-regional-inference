@@ -9,6 +9,45 @@ For a deep dive into the architecture, the motivation behind the "Smart Router" 
 
 👉 **[Multi-Regional Inference with Vertex AI](https://medium.com/@o.bernie/multi-regional-inference-with-vertex-ai-9c750fc7c9c3)**
 
+This is the architecture we'll be building;
+
+```mermaid
+flowchart LR
+    Client([Client HTTPS Request]) --> GLB(Global Load Balancer<br/>Anycast IP)
+
+    subgraph Region_1 [Region 1: us-central1]
+        direction TB
+        CR1[Cloud Run<br/>Smart Router]
+        V1[Vertex AI<br/>Endpoint]
+    end
+
+    subgraph Region_2 [Region 2: us-east4]
+        direction TB
+        CR2[Cloud Run<br/>Smart Router]
+        V2[Vertex AI<br/>Endpoint]
+    end
+
+    %% GLB Routing
+    GLB -- Geo-Routing --> CR1
+    GLB -- Geo-Routing --> CR2
+
+    %% Primary Paths
+    CR1 == Primary Path ==> V1
+    CR2 == Primary Path ==> V2
+
+    %% Failover Paths (PSC Global Access)
+    CR1 -.-> V2
+    CR2 -.-> V1
+
+    %% Styling
+    style Client fill:#ff9,stroke:#333,stroke-width:2px
+    style GLB fill:#bbf,stroke:#333,stroke-width:2px
+    style CR1 fill:#d5e8d4,stroke:#82b366
+    style CR2 fill:#d5e8d4,stroke:#82b366
+    style V1 fill:#dae8fc,stroke:#6c8ebf
+    style V2 fill:#dae8fc,stroke:#6c8ebf
+```
+
 ---
 
 ## ⚠️ Important: Configuration Variables
